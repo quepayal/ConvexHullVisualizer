@@ -15,3 +15,7 @@ Use the reset button located in header to start afresh!
 `expo start --tunnel`
 
 `yarn start`
+
+### Glimpse of the application
+
+![Screenshot_20211108-014525](https://user-images.githubusercontent.com/31551887/140660634-0d64817c-1f99-4e27-a3f8-fff1ee08c0f9.jpg)
