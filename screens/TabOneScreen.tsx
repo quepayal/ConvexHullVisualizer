@@ -1,15 +1,18 @@
 import * as React from 'react';
-import { GestureResponderEvent, Pressable, StyleSheet } from 'react-native';
+import { useEffect } from 'react';
+import {
+  Dimensions,
+  GestureResponderEvent,
+  Pressable,
+  StyleSheet,
+} from 'react-native';
+import Svg, { Polygon, Polyline } from 'react-native-svg';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { Text, View } from '../components/Themed';
+import { View } from '../components/Themed';
+import useConvexHull from '../hooks/useConvexHull';
+import { ICoordinate } from '../interfaces/container';
 import { RootState } from '../redux';
 import { setCoordinates } from '../redux/ConvexHullManagement/ConvexHullReducer';
-
-interface ICorrdinate {
-  abscissa: number;
-  ordinate: number;
-}
 
 export default function TabOneScreen() {
   const dispatch = useDispatch();
@@ -18,7 +21,7 @@ export default function TabOneScreen() {
   );
 
   const onPress = (evt: GestureResponderEvent) => {
-    const currCoordinate: ICorrdinate = {
+    const currCoordinate: ICoordinate = {
       abscissa: Math.trunc(evt.nativeEvent.locationX),
       ordinate: Math.trunc(evt.nativeEvent.locationY),
     };
@@ -30,15 +33,26 @@ export default function TabOneScreen() {
     if (index === -1) dispatch(setCoordinates(currCoordinate));
   };
 
+  const convexHull = useConvexHull();
+  const convexHullVector = convexHull
+    .map((coord) => `${coord.abscissa},${coord.ordinate}`)
+    .join(' ');
+
+  useEffect(() => {
+    convexHull.map((coord: ICoordinate) => {
+      console.log(coord.abscissa, ':', coord.ordinate);
+    });
+  }, [convexHull]);
+
   return (
     <Pressable style={styles.container} onPress={onPress}>
-      {coordinates.map((coordinate: ICorrdinate, idx: number) => {
+      {coordinates.map((coordinate: ICoordinate, idx: number) => {
         const styles = StyleSheet.create({
           circle: {
             position: 'absolute',
-            height: 30,
-            width: 30,
-            borderRadius: 30,
+            height: 10,
+            width: 10,
+            borderRadius: 10,
             backgroundColor: 'orange',
             left: coordinate.abscissa,
             top: coordinate.ordinate,
@@ -46,10 +60,21 @@ export default function TabOneScreen() {
         });
 
         return (
-          <View style={styles.circle} key={`coord-${idx}`} pointerEvents='none'>
-          </View>
+          <View
+            style={styles.circle}
+            key={`coord-${idx}`}
+            pointerEvents='none'
+          ></View>
         );
       })}
+      <Svg height='100%' width='100%'>
+        <Polyline
+          points={convexHullVector}
+          fill='none'
+          stroke={'blue'}
+          strokeWidth='2'
+        />
+      </Svg>
     </Pressable>
   );
 }

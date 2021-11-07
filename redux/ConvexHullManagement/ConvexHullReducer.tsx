@@ -1,9 +1,5 @@
 import { createAction, createReducer, PayloadAction } from '@reduxjs/toolkit';
-
-interface ICoordinate {
-  abscissa: number;
-  ordinate: number;
-}
+import { ICoordinate } from '../../interfaces/container';
 
 interface IConvexHullState {
   coordinates: ICoordinate[];
