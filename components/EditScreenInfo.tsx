@@ -15,32 +15,23 @@ export default function EditScreenInfo({ path }: { path: string }) {
           lightColor='rgba(0,0,0,0.8)'
           darkColor='rgba(255,255,255,0.8)'
         >
-          Open up the code for this screen:
+          This Convex Hull Visualizer uses Graham Scan's Algorithm published in 1972 by Graham. 
+          To use this app you can tap anywhere and a convex hull will be drawn automatically. 
+          Use the reset button located in header to start afresh!
         </Text>
-
         <View
           style={[styles.codeHighlightContainer, styles.homeScreenFilename]}
           darkColor='rgba(255,255,255,0.05)'
           lightColor='rgba(0,0,0,0.05)'
         >
-          <MonoText>{path}</MonoText>
+          <MonoText>Time Complexity - O(n log n)</MonoText>
         </View>
-
-        <Text
-          style={styles.getStartedText}
-          lightColor='rgba(0,0,0,0.8)'
-          darkColor='rgba(255,255,255,0.8)'
-        >
-          Change any of the text, save the file, and your app will automatically
-          update.
-        </Text>
-      </View>
+      </View>      
 
       <View style={styles.helpContainer}>
         <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
           <Text style={styles.helpLinkText} lightColor={Colors.light.tint}>
-            Tap here if your app doesn't automatically update after making
-            changes
+          Convex Hull construction Algorithm
           </Text>
         </TouchableOpacity>
       </View>
@@ -50,7 +41,7 @@ export default function EditScreenInfo({ path }: { path: string }) {
 
 function handleHelpPress() {
   WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/get-started/create-a-new-app/#opening-the-app-on-your-phonetablet'
+    'https://cp-algorithms.com/geometry/convex-hull.html'
   );
 }
 
